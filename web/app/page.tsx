@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Footer from "./components/Footer";
-import ShareButton from "./components/ShareButton";
 import SubmissionForm from "./components/SubmissionForm";
 import SubmissionList from "./components/SubmissionList";
 import { getLatestPredictions, listPredictionDates } from "./lib/predictions";
@@ -54,10 +53,9 @@ export default async function HomePage() {
               {latest.predictions.map((p) => (
                 <li
                   key={p.rank}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-orange-200 bg-white px-4 py-3 shadow-sm transition-shadow hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
+                  className="rounded-xl border border-orange-200 bg-white px-4 py-3 shadow-sm transition-shadow hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
                 >
-                  <span className="min-w-0 truncate font-medium">{p.title}</span>
-                  <ShareButton title={p.title} date={latest.date} />
+                  <span className="truncate font-medium">{p.title}</span>
                 </li>
               ))}
             </ul>
