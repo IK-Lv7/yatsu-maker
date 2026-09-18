@@ -1,0 +1,36 @@
+name: Fetch YouTube Titles
+
+on:
+  schedule:
+    # 毎月1日 03:00 JST (UTC 前日18:00)
+    - cron: "0 18 1 * *"
+  workflow_dispatch: {}
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests PyYAML
+
+      - name: Fetch new videos
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
+        run: |
+          python -m ml.fetch.fetch_titles \
+            --channel-id "$YOUTUBE_CHANNEL_ID" \
+            --output data/videos.jsonl
+
+      - name: Sync videos and answer-check results to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python -m ml.fetch.sync_videos --input data/videos.jsonl

@@ -1,0 +1,11 @@
+# 生成・後処理・前処理・取得の共通実行に必要な最小限の依存
+requests>=2.31
+PyYAML>=6.0
+pytest>=8.0
+
+# 学習・生成(LoRAファインチューニング)に必要。GPU環境またはColab等で使用
+torch>=2.2
+transformers>=4.40
+peft>=0.10
+accelerate>=0.30
+datasets>=2.19

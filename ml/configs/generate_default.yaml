@@ -1,0 +1,16 @@
+base_model: llm-jp/llm-jp-3-1.8b
+adapter_dir: models/lora-latest  # train_default.yaml の output_dir と同じ
+dtype: bfloat16  # ホスト型ランナー(CPU)のメモリ節約
+
+num_candidates: 100
+top_k: 5  # 量より質。主役は「みんなの投稿」側
+max_new_tokens: 30
+temperature: 1.0
+top_p: 0.95
+
+suffix: "奴"
+min_len: 3
+max_len: 40
+
+lexical_dup_threshold: 0.85
+mmr_lambda: 0.7

@@ -1,0 +1,20 @@
+base_model: llm-jp/llm-jp-3-1.8b
+data_path: data/cleaned.jsonl
+output_dir: models/lora-latest  # 学習後にコミット・pushしてgenerateジョブから参照する
+model_version: "2026-09-18"
+
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+target_modules:
+  - q_proj
+  - v_proj
+
+max_length: 64
+num_train_epochs: 6
+batch_size: 4
+learning_rate: 0.0002
+logging_steps: 10
+
+# リリース前品質確認用: 直近N日分のタイトルを学習から除外して評価する
+holdout_days: 30

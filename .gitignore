@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# ML artifacts (data/*.jsonlはSupabaseが正、モデルは中間チェックポイントのみ除外)
+data/
+models/lora-latest/checkpoint-*/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+
+# Env files
+.env
+.env.local
+.env*.local
+
+# Editor
+.vscode/
+.DS_Store
