@@ -37,6 +37,20 @@ def test_select_builds_request(monkeypatch):
     assert kwargs["headers"]["Range"] == f"0-{_PAGE_SIZE - 1}"
 
 
+def test_select_trims_supabase_env_values(monkeypatch):
+    monkeypatch.setenv("SUPABASE_URL", " https://example.supabase.co/ \n")
+    monkeypatch.setenv("SUPABASE_SERVICE_ROLE_KEY", " secret-key\n")
+
+    mock_response = MagicMock()
+    mock_response.json.return_value = [{"video_id": "v1"}]
+    with patch("ml.common.supabase_client.requests.get", return_value=mock_response) as mock_get:
+        select("videos", {"select": "video_id"})
+
+    args, kwargs = mock_get.call_args
+    assert args[0] == "https://example.supabase.co/rest/v1/videos"
+    assert kwargs["headers"]["apikey"] == "secret-key"
+
+
 def test_select_paginates_full_pages(monkeypatch):
     """PostgRESTの応答上限(1ページ分ちょうど)を超えるデータは複数リクエストで取得する。"""
     monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")

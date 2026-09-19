@@ -18,16 +18,16 @@ class SupabaseConfigError(RuntimeError):
 
 def _base_url() -> str:
     url = os.environ.get("SUPABASE_URL")
-    if not url:
+    if not url or not url.strip():
         raise SupabaseConfigError("環境変数 SUPABASE_URL が設定されていません")
-    return url.rstrip("/")
+    return url.strip().rstrip("/")
 
 
 def _service_role_key() -> str:
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-    if not key:
+    if not key or not key.strip():
         raise SupabaseConfigError("環境変数 SUPABASE_SERVICE_ROLE_KEY が設定されていません")
-    return key
+    return key.strip()
 
 
 def _headers(key: str) -> dict[str, str]:
